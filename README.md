@@ -77,33 +77,6 @@ After deployment, note these values for configuring your AgentCore runtime:
 
 Update your AgentCore runtime to use the created VPC, subnets, and security group from the CDK outputs.
 
-## Troubleshooting
-
-**Runtime fails to start or health checks timeout**
-
-Check that security group allows port 8080 ingress and all VPC endpoints are in "Available" state:
-
-```bash
-aws ec2 describe-vpc-endpoints \
-  --filters "Name=vpc-id,Values=YOUR_VPC_ID" \
-  --region us-west-2 \
-  --query 'VpcEndpoints[*].[ServiceName,State]' \
-  --output table
-```
-
-## Cost Considerations
-
-**VPC Endpoints (Interface):** ~$0.01/hour per endpoint per AZ
-
-- ECR API: 2 AZs × $0.01/hour = ~$15/month
-- ECR Docker: 2 AZs × $0.01/hour = ~$15/month
-- CloudWatch Logs: 2 AZs × $0.01/hour = ~$15/month
-- Bedrock Runtime: 2 AZs × $0.01/hour = ~$15/month
-
-**Total VPC Endpoint Cost:** ~$60/month
-
-**S3 Gateway Endpoint:** Free
-
 ## Cleanup
 
 To remove all resources:
